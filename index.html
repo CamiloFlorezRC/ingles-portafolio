@@ -1,19 +1,18 @@
 <!DOCTYPE html>
 <!--
   ============================================================
-  WEB PROFILE TEMPLATE  ·  Técnico Profesional en Programación Web
-  Institución Universitaria de El Espinal - UniEspinal
-  Inglés I / Inglés II
+  PORTAFOLIO · Camilo Andrés Flórez Romero
+  Técnico Profesional en Programación Web · UniEspinal
+  Proyecto final · Inglés II · Ingeniería en Sistemas (4.º semestre)
   ============================================================
+  Archivo único: HTML + CSS + JS en un solo index.html,
+  listo para GitHub Pages. No requiere style.css ni script.js.
 
-  HOW TO USE THIS FILE
-  1. Replace every text inside [square brackets] with your own information.
-  2. Every visible text has a data-i18n attribute. The actual words live in
-     script.js, inside the ES and EN dictionaries. Edit them there.
-  3. Do NOT delete the data-i18n attributes. They connect this file to the
-     language switcher.
-  4. Never add your home address, your phone number or your ID number.
-     A public profile does not need them.
+  · Los textos visibles viven en los diccionarios ES / EN del
+    <script> al final. El atributo data-i18n conecta cada texto
+    con su traducción. No borrar esos atributos.
+  · Dirección visual: "editor nocturno" — tinta azul profunda,
+    ámbar cálido y cian de sintaxis. Firma: ventana camilo.js.
   ============================================================
 -->
 <html lang="es">
@@ -21,99 +20,1162 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- [Replace with your name] -->
-  <title>[Your Name] · Web Developer</title>
-  <meta name="description" content="[One short line about you. Example: Junior web developer and technical support technician based in Colombia.]">
+  <title>Camilo Flórez · Desarrollador Web en formación</title>
+  <meta name="description" content="Portafolio de Camilo Andrés Flórez Romero, estudiante del Técnico Profesional en Programación Web en UniEspinal.">
 
+  <!-- Iconos -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css" crossorigin="anonymous" referrerpolicy="no-referrer">
+
+  <!-- Tipografías: Space Grotesk (display) · Inter (cuerpo) · JetBrains Mono (código/etiquetas) -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link rel="stylesheet" href="style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@500;600;700&family=Inter:wght@400;500;600&family=JetBrains+Mono:ital,wght@0,400;0,500;0,700;1,400&display=swap" rel="stylesheet">
+
+  <style>
+  /* ==========================================================
+     1. TOKENS DE DISEÑO
+     ========================================================== */
+  :root {
+    /* Paleta "editor nocturno" */
+    --ink:      #0B1020;   /* fondo base: azul tinta profundo */
+    --ink-2:    #111A2E;   /* superficie elevada (tarjetas) */
+    --ink-3:    #182238;   /* hover / bordes fuertes */
+    --line:     rgba(148, 163, 193, .15);  /* líneas finas */
+    --amber:    #ECA444;   /* acento principal: lámpara cálida */
+    --amber-soft: rgba(236, 164, 68, .12);
+    --cyan:     #62C6D8;   /* acento secundario: sintaxis */
+    --text:     #E9EEF8;
+    --muted:    #96A2BA;
+
+    --font-display: 'Space Grotesk', sans-serif;
+    --font-body:    'Inter', sans-serif;
+    --font-mono:    'JetBrains Mono', monospace;
+
+    --ancho-max: 1120px;
+    --radio: 16px;
+    --alto-header: 68px;
+  }
+
+  /* ==========================================================
+     2. BASE
+     ========================================================== */
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html {
+    scroll-behavior: smooth;
+    scroll-padding-top: calc(var(--alto-header) + 16px);
+  }
+
+  body {
+    background-color: var(--ink);
+    color: var(--text);
+    font-family: var(--font-body);
+    font-size: 16px;
+    line-height: 1.6;
+    overflow-x: hidden;
+  }
+
+  /* Fondo por capas: glows cálido/frío + rejilla + viñeta (nunca plano) */
+  body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -2;
+    background:
+      radial-gradient(52% 42% at 12% -4%, rgba(236, 164, 68, .10), transparent 60%),
+      radial-gradient(46% 40% at 96% 96%, rgba(98, 198, 216, .08), transparent 62%),
+      linear-gradient(rgba(148, 163, 193, .05) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 193, .05) 1px, transparent 1px);
+    background-size: auto, auto, 44px 44px, 44px 44px;
+  }
+
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background: radial-gradient(120% 120% at 50% 40%, transparent 55%, rgba(5, 8, 16, .55));
+  }
+
+  a { color: inherit; }
+  img { max-width: 100%; }
+
+  ::selection { background: var(--amber); color: var(--ink); }
+
+  ::-webkit-scrollbar { width: 10px; }
+  ::-webkit-scrollbar-track { background: var(--ink); }
+  ::-webkit-scrollbar-thumb { background: var(--ink-3); border-radius: 8px; }
+  ::-webkit-scrollbar-thumb:hover { background: rgba(236, 164, 68, .5); }
+
+  :focus-visible {
+    outline: 2px solid var(--amber);
+    outline-offset: 3px;
+    border-radius: 6px;
+  }
+
+  /* Enlace "saltar al contenido" (solo visible con teclado) */
+  .saltar {
+    position: fixed;
+    top: -70px;
+    left: 16px;
+    z-index: 200;
+    background: var(--amber);
+    color: var(--ink);
+    font-weight: 600;
+    font-size: 14px;
+    padding: 10px 18px;
+    border-radius: 10px;
+    text-decoration: none;
+    transition: top .3s ease;
+  }
+  .saltar:focus-visible { top: 14px; }
+
+  /* ==========================================================
+     3. SISTEMA DE APARICIÓN (stagger vía --d)
+     El estado oculto solo existe si el usuario acepta movimiento.
+     ========================================================== */
+  @media (prefers-reduced-motion: no-preference) {
+    [data-reveal] {
+      opacity: 0;
+      transform: translateY(26px);
+      transition:
+        opacity .7s ease var(--d, 0s),
+        transform .7s cubic-bezier(.22, .61, .36, 1) var(--d, 0s);
+    }
+    [data-reveal].visible { opacity: 1; transform: none; }
+  }
+
+  /* ==========================================================
+     4. HEADER / NAVBAR
+     ========================================================== */
+  .contenedor-header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    z-index: 99;
+    background: rgba(11, 16, 32, .55);
+    backdrop-filter: blur(12px);
+    -webkit-backdrop-filter: blur(12px);
+    border-bottom: 1px solid transparent;
+    transition: background .35s ease, border-color .35s ease, box-shadow .35s ease;
+  }
+
+  .contenedor-header.scrolled {
+    background: rgba(11, 16, 32, .85);
+    border-bottom-color: var(--line);
+    box-shadow: 0 12px 32px rgba(0, 0, 0, .35);
+  }
+
+  .contenedor-header header {
+    max-width: var(--ancho-max);
+    height: var(--alto-header);
+    margin: auto;
+    padding: 0 24px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 16px;
+  }
+
+  /* Logo: comando de terminal con cursor parpadeante */
+  .logo a {
+    font-family: var(--font-mono);
+    font-weight: 700;
+    font-size: 20px;
+    color: var(--text);
+    text-decoration: none;
+    letter-spacing: -.5px;
+  }
+  .logo a::after {
+    content: "_";
+    color: var(--amber);
+    animation: parpadeo 1.1s steps(1) infinite;
+  }
+
+  @keyframes parpadeo { 50% { opacity: 0; } }
+
+  .contenedor-header nav ul {
+    display: flex;
+    align-items: center;
+    list-style: none;
+    gap: 4px;
+  }
+
+  .contenedor-header nav ul li a {
+    position: relative;
+    display: block;
+    padding: 8px 12px;
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color .25s ease;
+  }
+
+  /* Subrayado que crece desde la izquierda (hover + scrollspy) */
+  .contenedor-header nav ul li a::after {
+    content: "";
+    position: absolute;
+    left: 12px;
+    right: 12px;
+    bottom: 4px;
+    height: 2px;
+    border-radius: 2px;
+    background: var(--amber);
+    transform: scaleX(0);
+    transform-origin: left;
+    transition: transform .3s cubic-bezier(.22, .61, .36, 1);
+  }
+
+  .contenedor-header nav ul li a:hover { color: var(--text); }
+  .contenedor-header nav ul li a:hover::after { transform: scaleX(.5); }
+
+  .contenedor-header nav ul li a.activo { color: var(--amber); }
+  .contenedor-header nav ul li a.activo::after { transform: scaleX(1); }
+
+  .acciones-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  /* Selector de idioma ES/EN */
+  .btn-idioma {
+    cursor: pointer;
+    background: transparent;
+    border: 1px solid var(--line);
+    color: var(--text);
+    border-radius: 999px;
+    padding: 7px 14px;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    font-weight: 500;
+    letter-spacing: .08em;
+    transition: border-color .25s ease, background-color .25s ease;
+  }
+  .btn-idioma:hover { border-color: var(--amber); background: var(--amber-soft); }
+  .btn-idioma .idioma-activo   { color: var(--amber); font-weight: 700; }
+  .btn-idioma .idioma-inactivo { color: var(--muted); }
+  .btn-idioma .idioma-sep      { margin: 0 5px; color: var(--line); }
+
+  /* Botón hamburguesa (oculto en escritorio) */
+  .nav-responsive {
+    display: none;
+    place-items: center;
+    width: 40px;
+    height: 40px;
+    background: transparent;
+    border: 1px solid var(--line);
+    border-radius: 10px;
+    color: var(--amber);
+    font-size: 16px;
+    cursor: pointer;
+    transition: border-color .25s ease, background-color .25s ease;
+  }
+  .nav-responsive:hover { border-color: var(--amber); background: var(--amber-soft); }
+
+  /* ==========================================================
+     5. HERO · #inicio
+     ========================================================== */
+  .inicio {
+    min-height: 100vh;
+    min-height: 100svh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    position: relative;
+    padding: calc(var(--alto-header) + 48px) 24px 80px;
+  }
+
+  .hero-grid {
+    max-width: var(--ancho-max);
+    width: 100%;
+    margin: auto;
+    display: grid;
+    grid-template-columns: 1.05fr .95fr;
+    gap: 56px;
+    align-items: center;
+  }
+
+  .contenido-banner { text-align: left; }
+
+  /* Eyebrow tipo terminal */
+  .eyebrow {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 500;
+    letter-spacing: .14em;
+    color: var(--amber);
+    margin-bottom: 18px;
+  }
+
+  /* Foto con anillo ámbar + monograma de respaldo si no hay imagen */
+  .contenedor-img {
+    position: relative;
+    width: 148px;
+    height: 148px;
+    margin-bottom: 28px;
+    border-radius: 50%;
+    box-shadow: 0 0 0 5px rgba(236, 164, 68, .14), 0 18px 40px rgba(0, 0, 0, .4);
+  }
+
+  .contenedor-img .monograma {
+    position: absolute;
+    inset: 0;
+    display: grid;
+    place-items: center;
+    border-radius: 50%;
+    border: 2px solid rgba(236, 164, 68, .55);
+    background: linear-gradient(135deg, #1B2542, #121A2E);
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: 44px;
+    color: var(--amber);
+  }
+
+  .contenedor-img img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 50%;
+    border: 2px solid rgba(236, 164, 68, .55);
+  }
+
+  .contenido-banner h1 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(2.3rem, 5.4vw, 3.9rem);
+    line-height: 1.06;
+    letter-spacing: -.02em;
+    margin-bottom: 18px;
+  }
+
+  /* Apellido con degradado ámbar → cian */
+  .contenido-banner h1 .grad {
+    background: linear-gradient(100deg, var(--amber) 20%, var(--cyan) 90%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    color: var(--amber);
+  }
+
+  /* Rol con efecto typewriter */
+  .contenido-banner h2 {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: clamp(.95rem, 1.6vw, 1.1rem);
+    color: var(--cyan);
+    min-height: 1.7em;
+    margin-bottom: 28px;
+  }
+
+  .contenido-banner h2 .caret {
+    display: inline-block;
+    width: 9px;
+    height: 1.1em;
+    margin-left: 5px;
+    background: var(--amber);
+    vertical-align: text-bottom;
+    animation: parpadeo 1s steps(1) infinite;
+  }
+
+  /* Redes sociales */
+  .redes { display: flex; gap: 12px; }
+
+  .redes a {
+    display: grid;
+    place-items: center;
+    width: 46px;
+    height: 46px;
+    border: 1px solid var(--line);
+    border-radius: 50%;
+    color: var(--text);
+    font-size: 18px;
+    text-decoration: none;
+    transition: transform .3s ease, background-color .3s ease,
+                border-color .3s ease, color .3s ease, box-shadow .3s ease;
+  }
+
+  .redes a:hover {
+    transform: translateY(-4px);
+    background: var(--amber);
+    border-color: var(--amber);
+    color: var(--ink);
+    box-shadow: 0 12px 24px rgba(236, 164, 68, .25);
+  }
+
+  /* ---- Ventana de código decorativa: camilo.js (la firma) ---- */
+  .codigo-wrap { position: relative; }
+
+  .codigo-wrap::before {
+    content: "";
+    position: absolute;
+    inset: 8% -4% -6% 10%;
+    z-index: -1;
+    background:
+      radial-gradient(50% 50% at 30% 30%, rgba(236, 164, 68, .16), transparent 70%),
+      radial-gradient(50% 50% at 75% 75%, rgba(98, 198, 216, .14), transparent 70%);
+    filter: blur(28px);
+  }
+
+  .codigo-card {
+    background: rgba(17, 26, 46, .92);
+    border: 1px solid var(--line);
+    border-radius: var(--radio);
+    overflow: hidden;
+    box-shadow: 0 28px 64px rgba(0, 0, 0, .45);
+    backdrop-filter: blur(6px);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .codigo-card { animation: flotar 7s ease-in-out infinite alternate; }
+    @keyframes flotar {
+      from { transform: translateY(0); }
+      to   { transform: translateY(-10px); }
+    }
+  }
+
+  .codigo-ventana {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 13px 18px;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .punto { width: 11px; height: 11px; border-radius: 50%; }
+  .punto.rojo     { background: #FF5F57; }
+  .punto.amarillo { background: #FEBC2E; }
+  .punto.verde    { background: #28C840; }
+
+  .codigo-ventana .archivo {
+    margin-left: auto;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+  }
+
+  .codigo-card pre {
+    padding: 22px 24px 26px;
+    font-family: var(--font-mono);
+    font-size: 13.5px;
+    line-height: 1.75;
+    overflow-x: auto;
+    color: var(--text);
+  }
+
+  /* Colores de sintaxis */
+  .tok-c { color: var(--muted); font-style: italic; }  /* comentario */
+  .tok-k { color: var(--cyan); }                       /* palabra clave */
+  .tok-s { color: var(--amber); }                      /* string */
+  .tok-n { color: #F2C078; }                           /* booleano/número */
+  .tok-p { color: var(--muted); }                      /* puntuación */
+
+  .codigo-card .cursor {
+    color: var(--amber);
+    animation: parpadeo 1s steps(1) infinite;
+  }
+
+  /* Indicador de scroll */
+  .scroll-hint {
+    position: absolute;
+    left: 50%;
+    bottom: 26px;
+    transform: translateX(-50%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 6px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    text-decoration: none;
+    transition: color .3s ease;
+  }
+  .scroll-hint:hover { color: var(--amber); }
+  .scroll-hint i { animation: rebote 1.8s ease-in-out infinite; }
+
+  @keyframes rebote {
+    0%, 100% { transform: translateY(0); }
+    50%      { transform: translateY(6px); }
+  }
+
+  /* ==========================================================
+     6. LAYOUT COMPARTIDO DE SECCIONES
+     ========================================================== */
+  .sobremi, .skills, .curriculum, .portfolio, .contacto {
+    padding: 96px 24px;
+  }
+
+  /* Secciones alternas: tinte semitransparente para que respire el fondo */
+  .skills, .portfolio {
+    background: rgba(13, 19, 34, .55);
+    border-top: 1px solid var(--line);
+    border-bottom: 1px solid var(--line);
+  }
+
+  .contenido-seccion {
+    max-width: var(--ancho-max);
+    margin: auto;
+  }
+
+  .contenido-seccion > h2 {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(1.9rem, 3.6vw, 2.6rem);
+    letter-spacing: -.02em;
+    margin-bottom: 22px;
+  }
+
+  .fila { display: flex; gap: 40px; }
+  .fila .col { width: 50%; }
+
+  .fila .col h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 20px;
+    margin-bottom: 22px;
+  }
+
+  /* Chip "Próximamente / Coming soon" para contenido por completar */
+  .chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 7px;
+    font-family: var(--font-mono);
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--amber);
+    background: var(--amber-soft);
+    border: 1px solid rgba(236, 164, 68, .32);
+    border-radius: 999px;
+    padding: 4px 11px;
+    width: fit-content;
+  }
+  .chip::before {
+    content: "";
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background: var(--amber);
+  }
+
+  /* ==========================================================
+     7. SOBRE MÍ · #sobremi
+     ========================================================== */
+  .sobremi .about-texto {
+    font-size: 17px;
+    line-height: 1.75;
+    color: var(--muted);
+    max-width: 780px;
+    margin-bottom: 48px;
+  }
+
+  .datos { list-style: none; }
+
+  .datos li {
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    align-items: center;
+    gap: 14px;
+    padding: 13px 0;
+    border-bottom: 1px solid var(--line);
+    font-size: 15px;
+  }
+  .datos li:last-child { border-bottom: none; }
+
+  .datos li strong {
+    font-family: var(--font-mono);
+    font-weight: 500;
+    font-size: 11.5px;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    color: var(--muted);
+  }
+
+  /* Píldora de disponibilidad con punto pulsante */
+  .datos li .destacado {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    width: fit-content;
+    background: var(--amber-soft);
+    border: 1px solid rgba(236, 164, 68, .35);
+    color: var(--amber);
+    font-weight: 600;
+    font-size: 13.5px;
+    padding: 4px 13px;
+    border-radius: 999px;
+  }
+  .datos li .destacado::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-radius: 50%;
+    background: var(--amber);
+    animation: pulso 2.2s ease-in-out infinite;
+  }
+
+  @keyframes pulso {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(236, 164, 68, .45); }
+    50%      { box-shadow: 0 0 0 6px rgba(236, 164, 68, 0); }
+  }
+
+  /* Intereses */
+  .contenedor-intereses {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(118px, 1fr));
+    gap: 14px;
+  }
+
+  .interes {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    padding: 24px 10px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    font-family: var(--font-mono);
+    font-size: 11px;
+    letter-spacing: .1em;
+    color: var(--muted);
+    transition: transform .3s ease, border-color .3s ease,
+                background-color .3s ease, color .3s ease;
+  }
+
+  .interes i {
+    font-size: 24px;
+    color: var(--cyan);
+    transition: color .3s ease, transform .3s ease;
+  }
+
+  .interes:hover {
+    transform: translateY(-5px);
+    background: var(--ink-3);
+    border-color: rgba(236, 164, 68, .5);
+    color: var(--text);
+  }
+  .interes:hover i { color: var(--amber); transform: scale(1.12); }
+
+  /* ==========================================================
+     8. HABILIDADES · #skills
+     ========================================================== */
+  .skill { margin-bottom: 34px; }
+  .skill:last-child { margin-bottom: 0; }
+
+  .skill-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 10px;
+  }
+
+  .skill-nombre { font-weight: 600; font-size: 15px; }
+
+  .skill-porc {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    font-weight: 700;
+    color: var(--amber);
+  }
+
+  .barra-skill {
+    height: 9px;
+    width: 100%;
+    background: var(--ink);
+    border: 1px solid var(--line);
+    border-radius: 999px;
+    overflow: hidden;
+  }
+
+  /* El ancho lo fija el JS desde data-percent al entrar en viewport */
+  .progreso {
+    height: 100%;
+    width: 0;
+    border-radius: 999px;
+    background: linear-gradient(90deg, var(--amber), #F3C36B);
+    box-shadow: 0 0 14px rgba(236, 164, 68, .4);
+    transition: width 1.3s cubic-bezier(.22, .61, .36, 1);
+  }
+
+  /* ==========================================================
+     9. FORMACIÓN Y EXPERIENCIA · #curriculum
+     ========================================================== */
+  .curriculum .fila { gap: 48px; }
+
+  /* Columna con línea de tiempo vertical */
+  .curriculum .fila .col {
+    position: relative;
+    padding-left: 30px;
+    border-left: 2px solid var(--line);
+  }
+
+  .curriculum .fila .col h3 { margin-left: -30px; padding-left: 30px; }
+
+  .curriculum .item {
+    position: relative;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    padding: 22px 24px;
+    margin-bottom: 22px;
+    transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+
+  .curriculum .item:hover {
+    transform: translateX(5px);
+    border-color: rgba(236, 164, 68, .5);
+    box-shadow: 0 14px 32px rgba(0, 0, 0, .3);
+  }
+
+  /* Punto sobre la línea de tiempo (reusa el markup conector/círculo) */
+  .curriculum .conectori,
+  .curriculum .conectord {
+    position: absolute;
+    left: -30px;
+    top: 28px;
+    width: 2px;
+    height: 0;
+    background: none;
+  }
+
+  .circuloi, .circulod {
+    position: absolute;
+    left: -7px;
+    top: 0;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: var(--ink);
+    border: 2px solid var(--amber);
+    box-shadow: 0 0 0 4px rgba(236, 164, 68, .14);
+  }
+
+  .curriculum .item h4 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 17px;
+    margin: 10px 0 6px;
+  }
+
+  .curriculum .item .casa {
+    display: block;
+    color: var(--amber);
+    font-weight: 600;
+    font-size: 14.5px;
+  }
+
+  .curriculum .item .fecha {
+    display: block;
+    font-family: var(--font-mono);
+    font-size: 12px;
+    color: var(--muted);
+    margin: 4px 0 10px;
+  }
+
+  .curriculum .item p {
+    color: var(--muted);
+    font-size: 14.5px;
+    line-height: 1.65;
+  }
+
+  /* Ítems placeholder: borde punteado + chip "Próximamente" */
+  .curriculum .item.is-placeholder { border-style: dashed; }
+
+  /* ==========================================================
+     10. PROYECTOS · #portfolio
+     ========================================================== */
+  .galeria {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(290px, 1fr));
+    gap: 24px;
+    margin-top: 14px;
+  }
+
+  .proyecto {
+    display: flex;
+    flex-direction: column;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radio);
+    overflow: hidden;
+    text-decoration: none;
+    transition: transform .35s ease, border-color .35s ease, box-shadow .35s ease;
+  }
+
+  .proyecto:hover {
+    transform: translateY(-7px);
+    border-color: rgba(236, 164, 68, .5);
+    box-shadow: 0 22px 44px rgba(0, 0, 0, .38);
+  }
+
+  /* Zona visual: si la imagen no existe, queda el patrón con icono */
+  .proyecto-media {
+    position: relative;
+    aspect-ratio: 16 / 9;
+    display: grid;
+    place-items: center;
+    background:
+      radial-gradient(70% 90% at 50% 0%, rgba(98, 198, 216, .1), transparent 65%),
+      linear-gradient(rgba(148, 163, 193, .07) 1px, transparent 1px),
+      linear-gradient(90deg, rgba(148, 163, 193, .07) 1px, transparent 1px),
+      var(--ink);
+    background-size: auto, 26px 26px, 26px 26px, auto;
+    border-bottom: 1px solid var(--line);
+  }
+
+  .proyecto-media > i {
+    font-size: 52px;
+    color: rgba(98, 198, 216, .3);
+    transition: color .35s ease, transform .35s ease;
+  }
+
+  .proyecto:hover .proyecto-media > i {
+    color: rgba(236, 164, 68, .55);
+    transform: scale(1.1) rotate(-4deg);
+  }
+
+  .proyecto-media img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+
+  .proyecto-info { padding: 20px 22px 22px; }
+
+  .proyecto-top {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 12px;
+  }
+
+  .proyecto-top > i {
+    color: var(--muted);
+    font-size: 15px;
+    transition: color .3s ease, transform .3s ease;
+  }
+  .proyecto:hover .proyecto-top > i {
+    color: var(--amber);
+    transform: translate(2px, -2px);
+  }
+
+  .proyecto-info h3 {
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 18px;
+    margin-bottom: 6px;
+  }
+
+  .proyecto-info p {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  /* ==========================================================
+     11. CONTACTO · #contacto
+     ========================================================== */
+  .contacto-intro {
+    color: var(--muted);
+    font-size: 16.5px;
+    line-height: 1.7;
+    max-width: 620px;
+    margin-bottom: 44px;
+  }
+
+  .tarjetas-contacto {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 20px;
+  }
+
+  .tarjeta {
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    background: var(--ink-2);
+    border: 1px solid var(--line);
+    border-radius: var(--radio);
+    padding: 24px 22px;
+    text-decoration: none;
+    transition: transform .3s ease, border-color .3s ease, box-shadow .3s ease;
+  }
+
+  .tarjeta:hover {
+    transform: translateY(-5px);
+    border-color: rgba(236, 164, 68, .5);
+    box-shadow: 0 16px 36px rgba(0, 0, 0, .32);
+  }
+
+  .tarjeta i {
+    flex-shrink: 0;
+    display: grid;
+    place-items: center;
+    width: 50px;
+    height: 50px;
+    border-radius: 13px;
+    background: var(--amber-soft);
+    border: 1px solid rgba(236, 164, 68, .3);
+    color: var(--amber);
+    font-size: 20px;
+    transition: transform .3s ease;
+  }
+  .tarjeta:hover i { transform: scale(1.08); }
+
+  .tarjeta strong {
+    display: block;
+    font-family: var(--font-display);
+    font-weight: 600;
+    font-size: 16px;
+    margin-bottom: 3px;
+  }
+
+  .tarjeta span {
+    font-size: 13.5px;
+    color: var(--muted);
+    word-break: break-word;
+  }
+
+  /* ==========================================================
+     12. FOOTER
+     ========================================================== */
+  footer {
+    position: relative;
+    background: var(--ink-2);
+    border-top: 1px solid var(--line);
+    padding: 60px 24px 38px;
+    text-align: center;
+  }
+
+  footer .arriba {
+    position: absolute;
+    top: -24px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: grid;
+    place-items: center;
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--amber);
+    color: var(--ink);
+    font-size: 17px;
+    text-decoration: none;
+    box-shadow: 0 10px 26px rgba(236, 164, 68, .3);
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+
+  footer .arriba:hover {
+    transform: translateX(-50%) translateY(-4px);
+    box-shadow: 0 16px 32px rgba(236, 164, 68, .42);
+  }
+
+  .footer-nota {
+    font-family: var(--font-mono);
+    font-size: 12.5px;
+    color: var(--muted);
+  }
+
+  /* ==========================================================
+     13. RESPONSIVE
+     ========================================================== */
+  @media screen and (max-width: 980px) {
+    .nav-responsive { display: grid; }
+
+    /* Menú móvil: panel flotante bajo el header */
+    .contenedor-header nav {
+      position: fixed;
+      top: calc(var(--alto-header) + 10px);
+      right: 16px;
+      width: min(300px, calc(100vw - 32px));
+      background: rgba(17, 26, 46, .97);
+      border: 1px solid var(--line);
+      border-radius: var(--radio);
+      padding: 10px;
+      box-shadow: 0 24px 56px rgba(0, 0, 0, .5);
+      opacity: 0;
+      transform: translateY(-10px) scale(.98);
+      transform-origin: top right;
+      pointer-events: none;
+      transition: opacity .28s ease, transform .28s cubic-bezier(.22, .61, .36, 1);
+    }
+
+    .contenedor-header nav.responsive {
+      opacity: 1;
+      transform: none;
+      pointer-events: auto;
+    }
+
+    .contenedor-header nav ul { flex-direction: column; align-items: stretch; gap: 2px; }
+
+    .contenedor-header nav ul li a {
+      padding: 13px 14px;
+      border-radius: 10px;
+      font-size: 13px;
+    }
+    .contenedor-header nav ul li a::after { display: none; }
+    .contenedor-header nav ul li a:hover { background: var(--ink-3); }
+    .contenedor-header nav ul li a.activo { background: var(--amber-soft); }
+
+    .hero-grid { grid-template-columns: 1fr; gap: 48px; }
+    .codigo-wrap { max-width: 560px; }
+    .scroll-hint { display: none; }
+  }
+
+  @media screen and (max-width: 760px) {
+    .sobremi, .skills, .curriculum, .portfolio, .contacto { padding: 72px 20px; }
+
+    .fila { display: block; }
+    .fila .col { width: 100%; margin-bottom: 44px; }
+    .fila .col:last-child { margin-bottom: 0; }
+
+    .datos li { grid-template-columns: 1fr; gap: 4px; }
+
+    .inicio { padding-top: calc(var(--alto-header) + 36px); }
+    .contenedor-img { width: 124px; height: 124px; }
+    .contenedor-img .monograma { font-size: 36px; }
+
+    .codigo-card pre { font-size: 12px; padding: 18px; }
+  }
+
+  /* ==========================================================
+     14. MOVIMIENTO REDUCIDO: todo instantáneo y visible
+     ========================================================== */
+  @media (prefers-reduced-motion: reduce) {
+    html { scroll-behavior: auto; }
+    *, *::before, *::after {
+      animation-duration: .01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: .01ms !important;
+    }
+  }
+  </style>
 </head>
 
 <body>
 
-  <!-- ========================= HEADER ========================= -->
+  <a class="saltar" href="#inicio" data-i18n="skip.content">Saltar al contenido</a>
+
+  <!-- ========================= HEADER / NAVBAR ========================= -->
   <div class="contenedor-header">
     <header>
       <div class="logo">
-        <!-- [Replace with your name or a short nickname] -->
         <a href="#inicio">Camilo</a>
       </div>
 
-      <nav id="nav">
+      <nav id="nav" aria-label="Navegación principal">
         <ul>
-          <li><a href="#inicio"     data-i18n="nav.home"      onclick="cerrarMenu()">INICIO</a></li>
-          <li><a href="#sobremi"    data-i18n="nav.about"     onclick="cerrarMenu()">SOBRE MÍ</a></li>
-          <li><a href="#skills"     data-i18n="nav.skills"    onclick="cerrarMenu()">SKILLS</a></li>
-          <li><a href="#curriculum" data-i18n="nav.resume"    onclick="cerrarMenu()">FORMACIÓN</a></li>
-          <li><a href="#portfolio"  data-i18n="nav.portfolio" onclick="cerrarMenu()">PROYECTOS</a></li>
-          <li><a href="#contacto"   data-i18n="nav.contact"   onclick="cerrarMenu()">CONTACTO</a></li>
+          <li><a href="#inicio"     data-i18n="nav.home">INICIO</a></li>
+          <li><a href="#sobremi"    data-i18n="nav.about">SOBRE MÍ</a></li>
+          <li><a href="#skills"     data-i18n="nav.skills">SKILLS</a></li>
+          <li><a href="#curriculum" data-i18n="nav.resume">FORMACIÓN</a></li>
+          <li><a href="#portfolio"  data-i18n="nav.portfolio">PROYECTOS</a></li>
+          <li><a href="#contacto"   data-i18n="nav.contact">CONTACTO</a></li>
         </ul>
       </nav>
 
       <div class="acciones-header">
-        <!-- LANGUAGE SWITCHER -->
+        <!-- SELECTOR DE IDIOMA -->
         <button id="btn-idioma"
                 class="btn-idioma"
                 type="button"
-                onclick="cambiarIdioma()"
                 aria-label="Switch to English">
           <span class="idioma-activo">ES</span><span class="idioma-sep">/</span><span class="idioma-inactivo">EN</span>
         </button>
 
-        <button class="nav-responsive" type="button" onclick="mostrarOcultarMenu()" aria-label="Menu">
+        <button class="nav-responsive" type="button" aria-label="Menú" aria-expanded="false" aria-controls="nav">
           <i class="fa-solid fa-bars"></i>
         </button>
       </div>
     </header>
   </div>
 
-  <!-- ========================= HERO ========================= -->
+  <!-- ========================= HERO / INICIO ========================= -->
   <section id="inicio" class="inicio">
-    <div class="contenido-banner">
-      <div class="contenedor-img">
-        <!-- [Replace profile.jpg with your own photo. Square image works best.] -->
-        <img src="images/profile.jpg" alt="Profile photo" onerror="this.style.display='none'">
+    <div class="hero-grid">
+      <div class="contenido-banner" data-reveal data-reveal-instant>
+        <p class="eyebrow">$ whoami</p>
+
+        <div class="contenedor-img">
+          <!-- Monograma de respaldo: si agregas images/profile.jpg, la foto lo cubre -->
+          <span class="monograma" aria-hidden="true">CF</span>
+          <img src="images/profile.jpg"
+               alt="Foto de perfil de Camilo Flórez"
+               data-i18n-alt="img.profileAlt"
+               onerror="this.style.display='none'">
+        </div>
+
+        <h1>CAMILO ANDRÉS <span class="grad">FLÓREZ ROMERO</span></h1>
+        <h2 data-i18n="hero.role" data-typewriter><span class="typed">Estudiante del programa Técnico en Programación Web</span><span class="caret" aria-hidden="true"></span></h2>
+
+        <div class="redes">
+          <a href="https://github.com/CamiloFlorezRC" target="_blank" rel="noopener" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
+          <a href="https://www.linkedin.com/in/camilo-flórez-531045435" target="_blank" rel="noopener" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
+          <a href="mailto:cflorez40@itfip.edu.co" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+        </div>
       </div>
 
-      <!-- [Replace with your full name] -->
-      <h1>CAMILO ANDRÉS FLÓREZ ROMERO</h1>
-      <h2 data-i18n="hero.role">Estudiante del programa Técnico en Programación Web/h2>
-
-      <div class="redes">
-        <!-- [Replace the # with your real profile links. Delete the ones you do not use.] -->
-        <a href="https://github.com/CamiloFlorezRC" aria-label="GitHub"><i class="fa-brands fa-github"></i></a>
-        <a href="https://www.linkedin.com/in/camilo-flórez-531045435" aria-label="LinkedIn"><i class="fa-brands fa-linkedin-in"></i></a>
-        <a href="mailto:cflorez40@itfip.edu.co]" aria-label="Email"><i class="fa-solid fa-envelope"></i></a>
+      <!-- Detalle visual: fragmento de código decorativo -->
+      <div class="codigo-wrap" data-reveal style="--d:.18s">
+        <div class="codigo-card" aria-hidden="true">
+          <div class="codigo-ventana">
+            <span class="punto rojo"></span>
+            <span class="punto amarillo"></span>
+            <span class="punto verde"></span>
+            <span class="archivo">camilo.js</span>
+          </div>
+          <pre><code><span class="tok-c">// Hola, mundo. Este soy yo en JavaScript:</span>
+<span class="tok-k">const</span> camilo = {
+  role: <span class="tok-s">"Web Developer"</span>,
+  education: <span class="tok-s">"UniEspinal"</span>,
+  stack: [<span class="tok-s">"HTML"</span>, <span class="tok-s">"CSS"</span>, <span class="tok-s">"JS"</span>, <span class="tok-s">"MySQL"</span>],
+  openToInternships: <span class="tok-n">true</span>
+};<span class="cursor">_</span></code></pre>
+        </div>
       </div>
     </div>
+
+    <a class="scroll-hint" href="#sobremi"><span data-i18n="hero.scroll">desliza</span><i class="fa-solid fa-angle-down" aria-hidden="true"></i></a>
   </section>
 
-  <!-- ========================= ABOUT ========================= -->
+  <!-- ========================= SOBRE MÍ ========================= -->
   <section id="sobremi" class="sobremi">
     <div class="contenido-seccion">
-      <h2 data-i18n="about.title">Sobre Mí</h2>
+      <p class="eyebrow" data-reveal>~/sobremi</p>
+      <h2 data-i18n="about.title" data-reveal style="--d:.06s">Sobre Mí</h2>
 
-      <p data-i18n="about.text">
+      <p class="about-texto" data-i18n="about.text" data-reveal style="--d:.12s">
         Me gusta aprender e intentar cosas nuevas, me considero una persona responsable y organizada. Me interesa mucho el desarrollo Full-Stack y el mantenimiento de sistemas, por ahora me estoy centrando en mis estudios y en aprender todo lo que pueda para más adelante tener la oportunidad de trabajar en dichas áreas.
       </p>
 
       <div class="fila">
-        <div class="col">
+        <div class="col" data-reveal style="--d:.18s">
           <h3 data-i18n="about.infoTitle">Información</h3>
-          <!--
-            SAFE FIELDS ONLY.
-            Do not add: home address, phone number, ID number, date of birth.
-          -->
           <ul class="datos">
             <li>
               <strong data-i18n="about.labelLocation">Ubicación</strong>
-              <span data-i18n="about.valueLocation">[Espinal - Tolima], Colombia</span>
+              <span data-i18n="about.valueLocation">Espinal - Tolima, Colombia</span>
             </li>
             <li>
               <strong data-i18n="about.labelEmail">Correo</strong>
-              <span>[cflorez40@itfip.edu.co]</span>
+              <span>cflorez40@itfip.edu.co</span>
             </li>
             <li>
               <strong data-i18n="about.labelLanguages">Idiomas</strong>
@@ -126,10 +1188,9 @@
           </ul>
         </div>
 
-        <div class="col">
+        <div class="col" data-reveal style="--d:.26s">
           <h3 data-i18n="about.interestsTitle">Intereses</h3>
           <div class="contenedor-intereses">
-            <!-- [Change icons and labels. Keep between 4 and 6.] -->
             <div class="interes">
               <i class="fa-solid fa-code"></i>
               <span data-i18n="interest.1">CÓDIGO</span>
@@ -152,81 +1213,105 @@
     </div>
   </section>
 
-  <!-- ========================= SKILLS ========================= -->
-  <!--
-    To change a skill: edit the label, and edit data-percent.
-    The bar width and the number are both taken from data-percent,
-    so you only change it in ONE place.
-  -->
+  <!-- ========================= HABILIDADES ========================= -->
+  <!-- Para cambiar un porcentaje: edita solo data-percent.
+       La barra y el número se actualizan solos. -->
   <section id="skills" class="skills">
     <div class="contenido-seccion">
-      <h2 data-i18n="skills.title">Habilidades</h2>
+      <p class="eyebrow" data-reveal>~/skills</p>
+      <h2 data-i18n="skills.title" data-reveal style="--d:.06s">Habilidades</h2>
 
       <div class="fila">
-        <div class="col">
+        <div class="col" data-reveal style="--d:.12s">
           <h3 data-i18n="skills.technical">Habilidades técnicas</h3>
 
           <div class="skill">
-            <span class="skill-nombre">HTML &amp; CSS</span>
-            <div class="barra-skill"><div class="progreso" data-percent="70"><span>70%</span></div></div>
+            <div class="skill-top">
+              <span class="skill-nombre">HTML &amp; CSS</span>
+              <span class="skill-porc">0%</span>
+            </div>
+            <div class="barra-skill"><div class="progreso" data-percent="70"></div></div>
           </div>
           <div class="skill">
-            <span class="skill-nombre">JavaScript</span>
-            <div class="barra-skill"><div class="progreso" data-percent="55"><span>55%</span></div></div>
+            <div class="skill-top">
+              <span class="skill-nombre">JavaScript</span>
+              <span class="skill-porc">0%</span>
+            </div>
+            <div class="barra-skill"><div class="progreso" data-percent="55"></div></div>
           </div>
           <div class="skill">
-            <span class="skill-nombre">MySQL</span>
-            <div class="barra-skill"><div class="progreso" data-percent="45"><span>45%</span></div></div>
+            <div class="skill-top">
+              <span class="skill-nombre">MySQL</span>
+              <span class="skill-porc">0%</span>
+            </div>
+            <div class="barra-skill"><div class="progreso" data-percent="45"></div></div>
           </div>
           <div class="skill">
-            <span class="skill-nombre">Git &amp; GitHub</span>
-            <div class="barra-skill"><div class="progreso" data-percent="60"><span>60%</span></div></div>
+            <div class="skill-top">
+              <span class="skill-nombre">Git &amp; GitHub</span>
+              <span class="skill-porc">0%</span>
+            </div>
+            <div class="barra-skill"><div class="progreso" data-percent="60"></div></div>
           </div>
         </div>
 
-        <div class="col">
+        <div class="col" data-reveal style="--d:.2s">
           <h3 data-i18n="skills.professional">Habilidades profesionales</h3>
 
           <div class="skill">
-            <span class="skill-nombre" data-i18n="skill.support">Soporte al usuario</span>
-            <div class="barra-skill"><div class="progreso" data-percent="80"><span>80%</span></div></div>
+            <div class="skill-top">
+              <span class="skill-nombre" data-i18n="skill.support">Soporte al usuario</span>
+              <span class="skill-porc">0%</span>
+            </div>
+            <div class="barra-skill"><div class="progreso" data-percent="80"></div></div>
           </div>
           <div class="skill">
-            <span class="skill-nombre" data-i18n="skill.teamwork">Trabajo en equipo</span>
-            <div class="barra-skill"><div class="progreso" data-percent="85"><span>85%</span></div></div>
+            <div class="skill-top">
+              <span class="skill-nombre" data-i18n="skill.teamwork">Trabajo en equipo</span>
+              <span class="skill-porc">0%</span>
+            </div>
+            <div class="barra-skill"><div class="progreso" data-percent="85"></div></div>
           </div>
           <div class="skill">
-            <span class="skill-nombre" data-i18n="skill.problem">Resolución de problemas</span>
-            <div class="barra-skill"><div class="progreso" data-percent="75"><span>75%</span></div></div>
+            <div class="skill-top">
+              <span class="skill-nombre" data-i18n="skill.problem">Resolución de problemas</span>
+              <span class="skill-porc">0%</span>
+            </div>
+            <div class="barra-skill"><div class="progreso" data-percent="75"></div></div>
           </div>
           <div class="skill">
-            <span class="skill-nombre" data-i18n="skill.english">Inglés técnico</span>
-            <div class="barra-skill"><div class="progreso" data-percent="65"><span>65%</span></div></div>
+            <div class="skill-top">
+              <span class="skill-nombre" data-i18n="skill.english">Inglés técnico</span>
+              <span class="skill-porc">0%</span>
+            </div>
+            <div class="barra-skill"><div class="progreso" data-percent="65"></div></div>
           </div>
         </div>
       </div>
     </div>
   </section>
 
-  <!-- ========================= RESUME ========================= -->
+  <!-- ========================= FORMACIÓN Y EXPERIENCIA ========================= -->
   <section id="curriculum" class="curriculum">
     <div class="contenido-seccion">
-      <h2 data-i18n="resume.title">Formación y experiencia</h2>
+      <p class="eyebrow" data-reveal>~/curriculum</p>
+      <h2 data-i18n="resume.title" data-reveal style="--d:.06s">Formación y experiencia</h2>
 
       <div class="fila">
-        <!-- EDUCATION -->
-        <div class="col izquierda">
+        <!-- FORMACIÓN -->
+        <div class="col izquierda" data-reveal style="--d:.12s">
           <h3 data-i18n="resume.education">Formación</h3>
 
           <div class="item izq">
             <h4 data-i18n="edu.1.title">Técnico Profesional en Programación Web</h4>
             <span class="casa">UniEspinal</span>
-            <span class="fecha">[2025 - 2027]</span>
+            <span class="fecha">2025 — 2027</span>
             <p data-i18n="edu.1.text">[Una o dos frases sobre lo que aprendes aquí.]</p>
             <div class="conectori"><div class="circuloi"></div></div>
           </div>
 
-          <div class="item izq">
+          <div class="item izq is-placeholder">
+            <span class="chip" data-i18n="badge.soon">Próximamente</span>
             <h4 data-i18n="edu.2.title">[Curso o certificación]</h4>
             <span class="casa">[Institución]</span>
             <span class="fecha">[Año]</span>
@@ -235,16 +1320,12 @@
           </div>
         </div>
 
-        <!-- EXPERIENCE -->
-        <div class="col derecha">
+        <!-- EXPERIENCIA -->
+        <div class="col derecha" data-reveal style="--d:.2s">
           <h3 data-i18n="resume.experience">Experiencia</h3>
 
-          <!--
-            No work experience yet? That is normal.
-            Use academic projects, volunteer work or freelance jobs.
-            Describe what you DID, using action verbs: built, configured, fixed, tested.
-          -->
-          <div class="item der">
+          <div class="item der is-placeholder">
+            <span class="chip" data-i18n="badge.soon">Próximamente</span>
             <h4 data-i18n="exp.1.title">[Rol o tipo de proyecto]</h4>
             <span class="casa">[Empresa, institución o proyecto propio]</span>
             <span class="fecha">[Año]</span>
@@ -252,7 +1333,8 @@
             <div class="conectord"><div class="circulod"></div></div>
           </div>
 
-          <div class="item der">
+          <div class="item der is-placeholder">
+            <span class="chip" data-i18n="badge.soon">Próximamente</span>
             <h4 data-i18n="exp.2.title">[Rol o tipo de proyecto]</h4>
             <span class="casa">[Empresa, institución o proyecto propio]</span>
             <span class="fecha">[Año]</span>
@@ -264,36 +1346,53 @@
     </div>
   </section>
 
-  <!-- ========================= PORTFOLIO ========================= -->
-  <!--
-    This is the most important section for a junior developer.
-    Three finished small projects are better than ten unfinished ones.
-    Every card should link to the live project or to its repository.
-  -->
+  <!-- ========================= PROYECTOS ========================= -->
   <section id="portfolio" class="portfolio">
     <div class="contenido-seccion">
-      <h2 data-i18n="portfolio.title">Proyectos</h2>
+      <p class="eyebrow" data-reveal>~/portfolio</p>
+      <h2 data-i18n="portfolio.title" data-reveal style="--d:.06s">Proyectos</h2>
 
       <div class="galeria">
-        <a class="proyecto" href="#" target="_blank" rel="noopener">
-          <img src="images/project-1.png" alt="Project 1" onerror="this.style.opacity=0">
-          <div class="overlay">
+        <a class="proyecto" href="#" target="_blank" rel="noopener" data-reveal style="--d:.1s">
+          <div class="proyecto-media">
+            <i class="fa-solid fa-code" aria-hidden="true"></i>
+            <img src="images/project-1.png" alt="Project 1" onerror="this.style.display='none'">
+          </div>
+          <div class="proyecto-info">
+            <div class="proyecto-top">
+              <span class="chip" data-i18n="badge.soon">Próximamente</span>
+              <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </div>
             <h3 data-i18n="project.1.title">[Nombre del proyecto]</h3>
             <p data-i18n="project.1.text">[Tecnologías usadas]</p>
           </div>
         </a>
 
-        <a class="proyecto" href="#" target="_blank" rel="noopener">
-          <img src="images/project-2.png" alt="Project 2" onerror="this.style.opacity=0">
-          <div class="overlay">
+        <a class="proyecto" href="#" target="_blank" rel="noopener" data-reveal style="--d:.18s">
+          <div class="proyecto-media">
+            <i class="fa-solid fa-code" aria-hidden="true"></i>
+            <img src="images/project-2.png" alt="Project 2" onerror="this.style.display='none'">
+          </div>
+          <div class="proyecto-info">
+            <div class="proyecto-top">
+              <span class="chip" data-i18n="badge.soon">Próximamente</span>
+              <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </div>
             <h3 data-i18n="project.2.title">[Nombre del proyecto]</h3>
             <p data-i18n="project.2.text">[Tecnologías usadas]</p>
           </div>
         </a>
 
-        <a class="proyecto" href="#" target="_blank" rel="noopener">
-          <img src="images/project-3.png" alt="Project 3" onerror="this.style.opacity=0">
-          <div class="overlay">
+        <a class="proyecto" href="#" target="_blank" rel="noopener" data-reveal style="--d:.26s">
+          <div class="proyecto-media">
+            <i class="fa-solid fa-code" aria-hidden="true"></i>
+            <img src="images/project-3.png" alt="Project 3" onerror="this.style.display='none'">
+          </div>
+          <div class="proyecto-info">
+            <div class="proyecto-top">
+              <span class="chip" data-i18n="badge.soon">Próximamente</span>
+              <i class="fa-solid fa-arrow-up-right-from-square" aria-hidden="true"></i>
+            </div>
             <h3 data-i18n="project.3.title">[Nombre del proyecto]</h3>
             <p data-i18n="project.3.text">[Tecnologías usadas]</p>
           </div>
@@ -302,35 +1401,38 @@
     </div>
   </section>
 
-  <!-- ========================= CONTACT ========================= -->
-  <!--
-    A contact form needs a server to work. This template uses direct links
-    instead, so nothing here is decorative: every button really does something.
-  -->
+  <!-- ========================= CONTACTO ========================= -->
   <section id="contacto" class="contacto">
     <div class="contenido-seccion">
-      <h2 data-i18n="contact.title">Contacto</h2>
-      <p class="contacto-intro" data-i18n="contact.intro">
+      <p class="eyebrow" data-reveal>~/contacto</p>
+      <h2 data-i18n="contact.title" data-reveal style="--d:.06s">Contacto</h2>
+      <p class="contacto-intro" data-i18n="contact.intro" data-reveal style="--d:.12s">
         Si quieres contactarme, puedes escribirme un correo. Responderé lo antes posible.
       </p>
 
       <div class="tarjetas-contacto">
-        <a class="tarjeta" href="mailto:[cflorez40@itfip.edu.co]">
-          <i class="fa-solid fa-envelope"></i>
-          <strong data-i18n="contact.emailLabel">Correo</strong>
-          <span>cflorez40@itfip.edu.co</span>
+        <a class="tarjeta" href="mailto:cflorez40@itfip.edu.co" data-reveal style="--d:.16s">
+          <i class="fa-solid fa-envelope" aria-hidden="true"></i>
+          <div>
+            <strong data-i18n="contact.emailLabel">Correo</strong>
+            <span>cflorez40@itfip.edu.co</span>
+          </div>
         </a>
 
-        <a class="tarjeta" href="https://github.com/CamiloFlorezRC" target="_blank" rel="noopener">
-          <i class="fa-brands fa-github"></i>
-          <strong>GitHub</strong>
-          <span>CamiloFlorezRC</span>
+        <a class="tarjeta" href="https://github.com/CamiloFlorezRC" target="_blank" rel="noopener" data-reveal style="--d:.24s">
+          <i class="fa-brands fa-github" aria-hidden="true"></i>
+          <div>
+            <strong>GitHub</strong>
+            <span>CamiloFlorezRC</span>
+          </div>
         </a>
 
-        <a class="tarjeta" href="https://www.linkedin.com/in/camilo-flórez-531045435" target="_blank" rel="noopener">
-          <i class="fa-brands fa-linkedin-in"></i>
-          <strong>LinkedIn</strong>
-          <span data-i18n="contact.linkedinValue">Camilo Flórez</span>
+        <a class="tarjeta" href="https://www.linkedin.com/in/camilo-flórez-531045435" target="_blank" rel="noopener" data-reveal style="--d:.32s">
+          <i class="fa-brands fa-linkedin-in" aria-hidden="true"></i>
+          <div>
+            <strong>LinkedIn</strong>
+            <span data-i18n="contact.linkedinValue">Camilo Flórez</span>
+          </div>
         </a>
       </div>
     </div>
@@ -338,7 +1440,7 @@
 
   <!-- ========================= FOOTER ========================= -->
   <footer>
-    <a href="#inicio" class="arriba" aria-label="Back to top">
+    <a href="#inicio" class="arriba" aria-label="Volver arriba" data-i18n-aria="aria.top">
       <i class="fa-solid fa-angles-up"></i>
     </a>
     <p class="footer-nota" data-i18n="footer.note">
@@ -346,6 +1448,383 @@
     </p>
   </footer>
 
-  <script src="script.js"></script>
+  <script>
+  "use strict";
+
+  /* ==========================================================
+     1. DICCIONARIOS DE IDIOMA
+     ES y EN tienen exactamente las mismas claves.
+     El inglés está redactado con gramática correcta
+     (proyecto de Inglés II), no traducido palabra por palabra.
+     ========================================================== */
+  const ES = {
+    "skip.content":   "Saltar al contenido",
+
+    "nav.home":      "INICIO",
+    "nav.about":     "SOBRE MÍ",
+    "nav.skills":    "SKILLS",
+    "nav.resume":    "FORMACIÓN",
+    "nav.portfolio": "PROYECTOS",
+    "nav.contact":   "CONTACTO",
+
+    "hero.role":   "Estudiante del programa Técnico en Programación Web",
+    "hero.scroll": "desliza",
+
+    "about.title":          "Sobre Mí",
+    "about.text":           "Me gusta aprender e intentar cosas nuevas, me considero una persona responsable y organizada. Me interesa mucho el desarrollo Full-Stack y el mantenimiento de sistemas, por ahora me estoy centrando en mis estudios y en aprender todo lo que pueda para más adelante tener la oportunidad de trabajar en dichas áreas.",
+    "about.infoTitle":      "Información",
+    "about.labelLocation":  "Ubicación",
+    "about.valueLocation":  "Espinal - Tolima, Colombia",
+    "about.labelEmail":     "Correo",
+    "about.labelLanguages": "Idiomas",
+    "about.valueLanguages": "Español (nativo) · Inglés (B1)",
+    "about.labelStatus":    "Disponibilidad",
+    "about.valueStatus":    "Abierto a prácticas",
+    "about.interestsTitle": "Intereses",
+
+    "interest.1": "CÓDIGO",
+    "interest.2": "EJERCICIO",
+    "interest.3": "LECTURA",
+    "interest.4": "JUEGOS",
+
+    "skills.title":        "Habilidades",
+    "skills.technical":    "Habilidades técnicas",
+    "skills.professional": "Habilidades profesionales",
+    "skill.support":       "Soporte al usuario",
+    "skill.teamwork":      "Trabajo en equipo",
+    "skill.problem":       "Resolución de problemas",
+    "skill.english":       "Inglés técnico",
+
+    "resume.title":      "Formación y experiencia",
+    "resume.education":  "Formación",
+    "resume.experience": "Experiencia",
+
+    "edu.1.title": "Técnico Profesional en Programación Web",
+    "edu.1.text":  "[Una o dos frases sobre lo que aprendes aquí.]",
+    "edu.2.title": "[Curso o certificación]",
+    "edu.2.text":  "[Qué aprendiste y para qué te sirve.]",
+
+    "exp.1.title": "[Rol o tipo de proyecto]",
+    "exp.1.text":  "[Qué hiciste, con qué herramientas y qué resultado tuvo.]",
+    "exp.2.title": "[Rol o tipo de proyecto]",
+    "exp.2.text":  "[Qué hiciste, con qué herramientas y qué resultado tuvo.]",
+
+    "portfolio.title": "Proyectos",
+    "project.1.title": "[Nombre del proyecto]",
+    "project.1.text":  "[Tecnologías usadas]",
+    "project.2.title": "[Nombre del proyecto]",
+    "project.2.text":  "[Tecnologías usadas]",
+    "project.3.title": "[Nombre del proyecto]",
+    "project.3.text":  "[Tecnologías usadas]",
+
+    "badge.soon": "Próximamente",
+
+    "contact.title":         "Contacto",
+    "contact.intro":         "Si quieres contactarme, puedes escribirme un correo. Responderé lo antes posible.",
+    "contact.emailLabel":    "Correo",
+    "contact.linkedinValue": "Camilo Flórez",
+
+    "footer.note": "Camilo Flórez · Técnico Profesional en Programación Web · UniEspinal",
+
+    "meta.title":       "Camilo Flórez · Desarrollador Web en formación",
+    "meta.description": "Portafolio de Camilo Andrés Flórez Romero, estudiante del Técnico Profesional en Programación Web en UniEspinal.",
+    "img.profileAlt":   "Foto de perfil de Camilo Flórez",
+    "aria.menu":        "Menú",
+    "aria.top":         "Volver arriba"
+  };
+
+  const EN = {
+    "skip.content":   "Skip to main content",
+
+    "nav.home":      "HOME",
+    "nav.about":     "ABOUT",
+    "nav.skills":    "SKILLS",
+    "nav.resume":    "EDUCATION",
+    "nav.portfolio": "PROJECTS",
+    "nav.contact":   "CONTACT",
+
+    "hero.role":   "Student of the Web Programming Technician Program",
+    "hero.scroll": "scroll",
+
+    "about.title":          "About Me",
+    "about.text":           "I like learning and trying new things, and I consider myself a responsible and organized person. I am very interested in full-stack development and systems maintenance. Right now, I am focused on my studies and on learning as much as I can, so that in the future I will have the opportunity to work in these areas.",
+    "about.infoTitle":      "Information",
+    "about.labelLocation":  "Location",
+    "about.valueLocation":  "Espinal - Tolima, Colombia",
+    "about.labelEmail":     "Email",
+    "about.labelLanguages": "Languages",
+    "about.valueLanguages": "Spanish (native) · English (B1)",
+    "about.labelStatus":    "Availability",
+    "about.valueStatus":    "Open to internships",
+    "about.interestsTitle": "Interests",
+
+    "interest.1": "CODE",
+    "interest.2": "FITNESS",
+    "interest.3": "READING",
+    "interest.4": "GAMING",
+
+    "skills.title":        "Skills",
+    "skills.technical":    "Technical skills",
+    "skills.professional": "Professional skills",
+    "skill.support":       "User support",
+    "skill.teamwork":      "Teamwork",
+    "skill.problem":       "Problem solving",
+    "skill.english":       "Technical English",
+
+    "resume.title":      "Education and Experience",
+    "resume.education":  "Education",
+    "resume.experience": "Experience",
+
+    "edu.1.title": "Professional Technician in Web Programming",
+    "edu.1.text":  "[One or two sentences about what you are learning here.]",
+    "edu.2.title": "[Course or certification]",
+    "edu.2.text":  "[What you learned and how you use it.]",
+
+    "exp.1.title": "[Role or project type]",
+    "exp.1.text":  "[What you did, which tools you used, and what the result was.]",
+    "exp.2.title": "[Role or project type]",
+    "exp.2.text":  "[What you did, which tools you used, and what the result was.]",
+
+    "portfolio.title": "Projects",
+    "project.1.title": "[Project name]",
+    "project.1.text":  "[Technologies used]",
+    "project.2.title": "[Project name]",
+    "project.2.text":  "[Technologies used]",
+    "project.3.title": "[Project name]",
+    "project.3.text":  "[Technologies used]",
+
+    "badge.soon": "Coming soon",
+
+    "contact.title":         "Contact",
+    "contact.intro":         "If you would like to contact me, you can send me an email. I will reply as soon as possible.",
+    "contact.emailLabel":    "Email",
+    "contact.linkedinValue": "Camilo Flórez",
+
+    "footer.note": "Camilo Flórez · Professional Technician in Web Programming · UniEspinal",
+
+    "meta.title":       "Camilo Flórez · Aspiring Web Developer",
+    "meta.description": "Portfolio of Camilo Andrés Flórez Romero, Web Programming Technician student at UniEspinal.",
+    "img.profileAlt":   "Profile photo of Camilo Flórez",
+    "aria.menu":        "Menu",
+    "aria.top":         "Back to top"
+  };
+
+  /* ==========================================================
+     2. SELECTOR DE IDIOMA (sin recargar + localStorage)
+     ========================================================== */
+  const DICCIONARIOS = { es: ES, en: EN };
+  const reduceMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  let idiomaActual = "es";
+  let tipeoTimer = null;
+
+  /* Efecto typewriter para el rol del hero */
+  function escribirMaquina(contenedor, texto) {
+    const zona = contenedor.querySelector(".typed");
+    if (!zona) { contenedor.textContent = texto; return; }
+
+    if (tipeoTimer) { clearInterval(tipeoTimer); tipeoTimer = null; }
+    if (reduceMotion) { zona.textContent = texto; return; }
+
+    zona.textContent = "";
+    let i = 0;
+    tipeoTimer = setInterval(() => {
+      i += 1;
+      zona.textContent = texto.slice(0, i);
+      if (i >= texto.length) { clearInterval(tipeoTimer); tipeoTimer = null; }
+    }, 34);
+  }
+
+  function aplicarIdioma(idioma) {
+    const textos = DICCIONARIOS[idioma];
+    if (!textos) return;
+    idiomaActual = idioma;
+
+    /* Textos visibles */
+    document.querySelectorAll("[data-i18n]").forEach(el => {
+      const clave = el.getAttribute("data-i18n");
+      const valor = textos[clave];
+      if (valor === undefined) { console.warn("Falta traducción:", clave); return; }
+      if (el.hasAttribute("data-typewriter")) escribirMaquina(el, valor);
+      else el.textContent = valor;
+    });
+
+    /* Atributos alt traducibles */
+    document.querySelectorAll("[data-i18n-alt]").forEach(el => {
+      const valor = textos[el.getAttribute("data-i18n-alt")];
+      if (valor !== undefined) el.setAttribute("alt", valor);
+    });
+
+    /* Atributos aria-label traducibles */
+    document.querySelectorAll("[data-i18n-aria]").forEach(el => {
+      const valor = textos[el.getAttribute("data-i18n-aria")];
+      if (valor !== undefined) el.setAttribute("aria-label", valor);
+    });
+
+    /* aria-label del menú móvil */
+    document.querySelector(".nav-responsive").setAttribute("aria-label", textos["aria.menu"]);
+
+    /* Título y meta description del documento */
+    document.title = textos["meta.title"];
+    const metaDesc = document.querySelector('meta[name="description"]');
+    if (metaDesc) metaDesc.setAttribute("content", textos["meta.description"]);
+
+    document.documentElement.lang = idioma;
+
+    /* Estado visual del botón ES/EN */
+    const boton = document.getElementById("btn-idioma");
+    const otro = idioma === "es" ? "en" : "es";
+    boton.innerHTML =
+      '<span class="idioma-activo">'   + idioma.toUpperCase() + '</span>' +
+      '<span class="idioma-sep">/</span>' +
+      '<span class="idioma-inactivo">' + otro.toUpperCase()   + '</span>';
+    boton.setAttribute("aria-label",
+      idioma === "es" ? "Switch to English" : "Cambiar a español");
+
+    /* Persistencia */
+    try { localStorage.setItem("idioma", idioma); } catch (e) { /* modo privado */ }
+  }
+
+  function cambiarIdioma() {
+    aplicarIdioma(idiomaActual === "es" ? "en" : "es");
+  }
+
+  /* ==========================================================
+     3. MENÚ MÓVIL (hamburguesa)
+     ========================================================== */
+  const navEl   = document.getElementById("nav");
+  const btnMenu = document.querySelector(".nav-responsive");
+  const iconoMenu = btnMenu.querySelector("i");
+
+  function cerrarMenu() {
+    navEl.classList.remove("responsive");
+    btnMenu.setAttribute("aria-expanded", "false");
+    iconoMenu.classList.add("fa-bars");
+    iconoMenu.classList.remove("fa-xmark");
+  }
+
+  function mostrarOcultarMenu() {
+    const abierto = navEl.classList.toggle("responsive");
+    btnMenu.setAttribute("aria-expanded", String(abierto));
+    iconoMenu.classList.toggle("fa-bars", !abierto);
+    iconoMenu.classList.toggle("fa-xmark", abierto);
+  }
+
+  btnMenu.addEventListener("click", mostrarOcultarMenu);
+  document.getElementById("btn-idioma").addEventListener("click", cambiarIdioma);
+
+  /* Cerrar al pulsar un enlace, Escape, fuera del menú o al agrandar */
+  navEl.querySelectorAll("a").forEach(a => a.addEventListener("click", cerrarMenu));
+  document.addEventListener("keydown", e => { if (e.key === "Escape") cerrarMenu(); });
+  document.addEventListener("click", e => {
+    if (navEl.classList.contains("responsive") &&
+        !navEl.contains(e.target) && !btnMenu.contains(e.target)) {
+      cerrarMenu();
+    }
+  });
+  window.addEventListener("resize", () => { if (window.innerWidth > 980) cerrarMenu(); });
+
+  /* ==========================================================
+     4. HEADER CON SOMBRA AL HACER SCROLL
+     ========================================================== */
+  const headerCont = document.querySelector(".contenedor-header");
+  function estadoHeader() {
+    headerCont.classList.toggle("scrolled", window.scrollY > 10);
+  }
+  window.addEventListener("scroll", estadoHeader, { passive: true });
+  estadoHeader();
+
+  /* ==========================================================
+     5. SCROLLSPY (resalta el enlace activo en el navbar)
+     ========================================================== */
+  const enlacesNav = navEl.querySelectorAll('a[href^="#"]');
+
+  function activarEnlace(id) {
+    enlacesNav.forEach(a => {
+      const activo = a.getAttribute("href") === "#" + id;
+      a.classList.toggle("activo", activo);
+      if (activo) a.setAttribute("aria-current", "true");
+      else a.removeAttribute("aria-current");
+    });
+  }
+
+  if ("IntersectionObserver" in window) {
+    const spy = new IntersectionObserver(entradas => {
+      entradas.forEach(en => { if (en.isIntersecting) activarEnlace(en.target.id); });
+    }, { rootMargin: "-40% 0px -55% 0px" });
+    document.querySelectorAll("section[id]").forEach(s => spy.observe(s));
+  }
+
+  /* ==========================================================
+     6. APARICIONES AL HACER SCROLL (fade + slide con stagger)
+     ========================================================== */
+  if ("IntersectionObserver" in window) {
+    const revelador = new IntersectionObserver((entradas, obs) => {
+      entradas.forEach(en => {
+        if (en.isIntersecting) {
+          en.target.classList.add("visible");
+          obs.unobserve(en.target);
+        }
+      });
+    }, { threshold: .12, rootMargin: "0px 0px -6% 0px" });
+    document.querySelectorAll("[data-reveal]").forEach(el => revelador.observe(el));
+  } else {
+    document.querySelectorAll("[data-reveal]").forEach(el => el.classList.add("visible"));
+  }
+
+  /* El bloque principal del hero aparece al instante (sin esperar al observer),
+     para que la primera impresión nunca quede en blanco */
+  requestAnimationFrame(() => requestAnimationFrame(() => {
+    document.querySelectorAll("[data-reveal-instant]").forEach(el => el.classList.add("visible"));
+  }));
+
+  /* ==========================================================
+     7. BARRAS DE HABILIDADES (animan al entrar en viewport)
+     El ancho sale de data-percent; el número cuenta de 0 a N.
+     ========================================================== */
+  function animarConteo(el, objetivo, duracion) {
+    if (reduceMotion) { el.textContent = objetivo + "%"; return; }
+    const inicio = performance.now();
+    function paso(t) {
+      const p = Math.min((t - inicio) / duracion, 1);
+      const eased = 1 - Math.pow(1 - p, 3);
+      el.textContent = Math.round(objetivo * eased) + "%";
+      if (p < 1) requestAnimationFrame(paso);
+    }
+    requestAnimationFrame(paso);
+  }
+
+  function animarHabilidades() {
+    const barras = document.querySelectorAll(".progreso");
+
+    const mostrar = barra => {
+      const porcentaje = parseInt(barra.getAttribute("data-percent") || "0", 10);
+      barra.style.width = porcentaje + "%";
+      const etiqueta = barra.closest(".skill").querySelector(".skill-porc");
+      if (etiqueta) animarConteo(etiqueta, porcentaje, 1200);
+    };
+
+    if (!("IntersectionObserver" in window)) { barras.forEach(mostrar); return; }
+
+    const observador = new IntersectionObserver((entradas, obs) => {
+      entradas.forEach(entrada => {
+        if (entrada.isIntersecting) {
+          mostrar(entrada.target);
+          obs.unobserve(entrada.target);
+        }
+      });
+    }, { threshold: 0.25, rootMargin: "0px 0px -10% 0px" });
+
+    barras.forEach(barra => observador.observe(barra));
+  }
+
+  /* ==========================================================
+     8. INICIO: idioma guardado (español por defecto)
+     ========================================================== */
+  let idiomaGuardado = "es";
+  try { idiomaGuardado = localStorage.getItem("idioma") || "es"; } catch (e) { /* sin storage */ }
+
+  aplicarIdioma(DICCIONARIOS[idiomaGuardado] ? idiomaGuardado : "es");
+  animarHabilidades();
+  </script>
 </body>
 </html>
