@@ -39,7 +39,7 @@ const ES = {
   "about.interestsTitle": "Intereses",
 
   "interest.1": "CÓDIGO",
-  "interest.2": "SOPORTE",
+  "interest.2": "EJERCICIO",
   "interest.3": "LECTURA",
   "interest.4": "JUEGOS",
 
