@@ -6,7 +6,7 @@ const ES = {
 
   'nav.home': 'INICIO',
   'nav.about': 'SOBRE MÍ',
-  'nav.skills': 'SKILLS',
+  'nav.skills': 'HABILIDADES',
   'nav.resume': 'FORMACIÓN',
   'nav.portfolio': 'PROYECTOS',
   'nav.contact': 'CONTACTO',
@@ -56,6 +56,8 @@ const ES = {
   'exp.2.text': '[Qué hiciste, con qué herramientas y qué resultado tuvo.]',
 
   'portfolio.title': 'Proyectos',
+  'project.struct.title': 'Estructuras de Información 2',
+  'project.struct.text': 'Temario interactivo de ejercicios · HTML, CSS y JS',
   'project.1.title': '[Nombre del proyecto]',
   'project.1.text': '[Tecnologías usadas]',
   'project.2.title': '[Nombre del proyecto]',
@@ -63,6 +65,7 @@ const ES = {
   'project.3.title': '[Nombre del proyecto]',
   'project.3.text': '[Tecnologías usadas]',
 
+  'badge.live': 'En vivo',
   'badge.soon': 'Próximamente',
 
   'contact.title': 'Contacto',
@@ -139,6 +142,8 @@ const EN = {
     '[What you did, which tools you used, and what the result was.]',
 
   'portfolio.title': 'Projects',
+  'project.struct.title': 'Information Structures 2',
+  'project.struct.text': 'Interactive exercise catalog · HTML, CSS and JS',
   'project.1.title': '[Project name]',
   'project.1.text': '[Technologies used]',
   'project.2.title': '[Project name]',
@@ -146,6 +151,7 @@ const EN = {
   'project.3.title': '[Project name]',
   'project.3.text': '[Technologies used]',
 
+  'badge.live': 'Live',
   'badge.soon': 'Coming soon',
 
   'contact.title': 'Contact',
