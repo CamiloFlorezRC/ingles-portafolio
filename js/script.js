@@ -62,8 +62,6 @@ const ES = {
   'project.1.text': '[Tecnologías usadas]',
   'project.2.title': '[Nombre del proyecto]',
   'project.2.text': '[Tecnologías usadas]',
-  'project.3.title': '[Nombre del proyecto]',
-  'project.3.text': '[Tecnologías usadas]',
 
   'badge.live': 'En vivo',
   'badge.soon': 'Próximamente',
@@ -148,8 +146,6 @@ const EN = {
   'project.1.text': '[Technologies used]',
   'project.2.title': '[Project name]',
   'project.2.text': '[Technologies used]',
-  'project.3.title': '[Project name]',
-  'project.3.text': '[Technologies used]',
 
   'badge.live': 'Live',
   'badge.soon': 'Coming soon',
